@@ -76,8 +76,8 @@ public class InterestingParty {
         }
         chk[startRow][startCol] = 0;
 
-        Queue<Integer> queueX = new LinkedList<>();
-        Queue<Integer> queueY = new LinkedList<>();
+        Queue<Integer> queueX = new LinkedList<Integer>();
+        Queue<Integer> queueY = new LinkedList<Integer>();
         queueX.add(startRow);
         queueY.add(startCol);
 
@@ -86,7 +86,7 @@ public class InterestingParty {
         while (cnt < 10) {
             int x = queueX.poll();
             int y = queueY.poll();
-            System.out.println(queueX.poll()+" "+queueY.poll());
+            System.out.println(x+" "+y);
             for (int i = 0; i < moveRow.length; i++) {
                 int nextX = x + moveRow[i];
                 int nextY = y + moveCol[i];
@@ -96,6 +96,7 @@ public class InterestingParty {
                 if (chk[nextX][nextY] != -1) continue;
                 queueX.add(nextX);
                 queueX.add(nextY);
+                
                 chk[nextX][nextY] = chk[x][y]+1;
             }
             System.out.println(cnt++);
@@ -131,17 +132,7 @@ public class InterestingParty {
         int startCol = 0;
         int[] moveRow = {1,0,-1,0,-2,1};
         int[] moveCol = {0,-1,0,1,3,0};
-        //System.out.println(new InterestingParty().dist(maze, startRow, startCol, moveRow, moveCol));
-        
-        Queue<Integer> a = new LinkedList<>();
-        
-        a.add(1);
-        a.add(2);
-        a.add(3);
-        a.add(4);
-        
-        while(!a.isEmpty()) {
-            System.out.println(a.poll());
-        }
+        System.out.println(new InterestingParty().dist(maze, startRow, startCol, moveRow, moveCol));
+
     }
 }
