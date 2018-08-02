@@ -5,17 +5,26 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
 import dao.MemberDao;
 
 @WebListener
-public class ContextLoaderListener implements ServletContextListener { //ServletContextListener를 상속한다.
+public class ContextLoaderListener implements ServletContextListener {
 
-    //contextInitialized 는 context가 시작될 때 수행되는 메서드이다.
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        MemberDao memberDao = new MemberDao("jdbc:mysql://localhost:3306/testdb", "test", "1111");
-        
-        ServletContext sc = sce.getServletContext(); // ServletContext 객체를 받아서
-        sc.setAttribute("memberDao", memberDao);     // memberDao 객체를 attribute에 추가해 준다.
+        try {
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder()
+                    .build(Resources.getResourceAsStream("config/mybatis-config.xml"));
+            MemberDao memberDao = new MemberDao(sqlSessionFactory);
+
+            ServletContext sc = sce.getServletContext();
+            sc.setAttribute("memberDao", memberDao);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

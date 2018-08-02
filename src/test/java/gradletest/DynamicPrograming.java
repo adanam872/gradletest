@@ -43,8 +43,23 @@ public class DynamicPrograming {
         return max;
     }
     
+    public long countPerfect(int n) {
+        
+        long[] dp = new long[n/2];
+        
+        dp[0] = 1;
+        for (int i = 1; i < n/2; i++) {
+            dp[i] = 0;
+            for (int j = 0; j < i; j++) {
+                dp[i] += dp[j]*dp[i-j-1];
+            }
+        }
+        
+        return dp[n/2];
+    }
+    
     public static void main(String[] args) {
-        int[] donations = {10, 3, 2, 5, 7, 8};
-        System.out.println(new DynamicPrograming().maxDona(donations));
+        
+
     }
 }
